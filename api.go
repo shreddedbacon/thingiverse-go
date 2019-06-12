@@ -43,7 +43,7 @@ func NewAPI(clientId string, clientSecret string, appToken string) thingiAPI {
 }
 
 func main() {
-  // example usage
+	// example usage
 	clientId := os.Getenv("CLIENTID")
 	clientSecret := os.Getenv("CLIENTSECRET")
 	appToken := os.Getenv("APPTOKEN")
@@ -87,9 +87,9 @@ func MakeHTTPRequest(httpMethod string, apiURL string, accessToken string, apiPa
 	defer apiResponse.Body.Close()
 	apiResponseBody, _ := ioutil.ReadAll(apiResponse.Body)
 	apiReturnBody := string(apiResponseBody)
-	log.Println(apiResponse.StatusCode)
 	if apiResponse.StatusCode != 200 {
-		return apiReturnBody, errors.New("Error returned from API")
+		errorMsg := fmt.Sprintf("%v: %v", apiResponse.StatusCode, "Error returned from API")
+		return apiReturnBody, errors.New(errorMsg)
 	}
 	return apiReturnBody, nil
 }
