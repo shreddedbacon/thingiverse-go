@@ -4,13 +4,13 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"strconv"
 	"time"
-  "fmt"
 )
 
 // globals
@@ -22,11 +22,13 @@ var (
 	}
 )
 
-type thingiAPI interface {
+type TthingiAPI interface {
 	GetUser(string) (string, error)
 	GetThing(string) (string, error)
 	GetThingFiles(string) (string, error)
 	GetNewest() (string, error)
+	GetPopular() (string, error)
+	GetFeatured(bool) (string, error)
 }
 
 type ThingiAPI struct {
@@ -35,7 +37,7 @@ type ThingiAPI struct {
 	appToken     string
 }
 
-func NewAPI(clientId string, clientSecret string, appToken string) thingiAPI {
+func NewAPI(clientId string, clientSecret string, appToken string) TthingiAPI {
 	return &ThingiAPI{
 		clientId:     clientId,
 		clientSecret: clientSecret,
